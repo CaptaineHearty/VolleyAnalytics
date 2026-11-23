@@ -1,7 +1,25 @@
+# Python
 __pycache__/
 *.pyc
-db.sqlite3
 .venv/
 venv/
+
+# Django
+db.sqlite3
+staticfiles/
 .env
+
+# Outils de test et de qualité
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Frontend
 node_modules/
+
+# Vidéos de match : elles restent sur le poste, jamais dans le dépôt
+*.mp4
+*.mov
+*.mkv
+*.avi
