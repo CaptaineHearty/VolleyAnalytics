@@ -1,8 +1,31 @@
+from django.http import HttpResponse
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.renderers import BaseRenderer
+from rest_framework.settings import api_settings
 
+from .export import generer_csv, nom_fichier
 from .models import Equipe, Evenement, Joueur, Match
 from .serializers import EquipeSerializer, EvenementSerializer, JoueurSerializer, MatchSerializer
+
+
+class CSVRenderer(BaseRenderer):
+    """Déclare le type text/csv à DRF.
+
+    La vue d'export renvoie déjà le fichier tout fait ; ce renderer sert
+    surtout à ce qu'un client qui envoie `Accept: text/csv` ne reçoive pas
+    une erreur 406, et à rendre lisibles les erreurs (404, 403) dans ce cas.
+    """
+
+    media_type = "text/csv"
+    format = "csv"
+    charset = "utf-8"
+
+    def render(self, data, accepted_media_type=None, renderer_context=None):
+        if isinstance(data, dict) and "detail" in data:
+            return str(data["detail"]).encode(self.charset)
+        return str(data or "").encode(self.charset)
 
 
 class PaginationEvenements(PageNumberPagination):
@@ -40,6 +63,19 @@ class MatchViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(cree_par=self.request.user)
+
+    @action(
+        detail=True,
+        methods=["get"],
+        url_path="export",
+        renderer_classes=[*api_settings.DEFAULT_RENDERER_CLASSES, CSVRenderer],
+    )
+    def export_csv(self, request, pk=None):
+        """GET /api/matchs/<id>/export/ : télécharge les événements en CSV."""
+        match = self.get_object()
+        reponse = HttpResponse(generer_csv(match), content_type="text/csv; charset=utf-8")
+        reponse["Content-Disposition"] = f'attachment; filename="{nom_fichier(match)}"'
+        return reponse
 
 
 class EvenementViewSet(viewsets.ModelViewSet):
