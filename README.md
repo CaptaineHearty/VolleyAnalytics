@@ -16,6 +16,26 @@ python manage.py runserver
 
 Sans variable `DATABASE_URL`, le projet utilise SQLite (`backend/db.sqlite3`).
 
+## Frontend (React + TypeScript, Vite)
+
+Nécessite Node.js 22.12 ou plus récent (Node 24 LTS conseillé). Dans un second terminal, Django tournant déjà :
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+Ouvrir http://localhost:5173. En dev, Vite renvoie `/api`, `/api-auth`, `/admin` et `/static`
+vers Django (port 8000) : tout passe par la même origine, la session et le CSRF de Django fonctionnent tels quels.
+
+```powershell
+npm run lint        # oxlint
+npm run typecheck   # TypeScript
+npm test            # Vitest
+npm run build       # build de production dans frontend/dist
+```
+
 ## Qualité du code
 
 Une seule fois, à la racine du dépôt :
@@ -41,6 +61,7 @@ pytest                # tests + couverture (minimum 90 %)
 - La CI GitHub Actions (`.github/workflows/ci.yml`) tourne sur chaque push et chaque PR vers `dev` et `main` :
   - **Lint** : `ruff check` et `ruff format --check`
   - **Tests** : `pytest` sur PostgreSQL 16, plus une vérification des migrations manquantes
+  - **Frontend** : oxlint, vérification TypeScript, tests Vitest et build
   - **Réglages de production** : `manage.py check --deploy`
 
 ## Variables d'environnement

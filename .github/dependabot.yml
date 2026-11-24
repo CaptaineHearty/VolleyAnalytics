@@ -6,6 +6,12 @@ updates:
       interval: weekly
     target-branch: dev
 
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule:
+      interval: weekly
+    target-branch: dev
+
   - package-ecosystem: github-actions
     directory: /
     schedule:
