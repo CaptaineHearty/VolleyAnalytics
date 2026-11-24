@@ -91,6 +91,11 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 100,
 }
 
+# Le lecteur YouTube intégré exige un en-tête Referer (sinon erreur 153).
+# Le défaut de Django (« same-origin ») n'en envoie aucun aux autres sites ;
+# celui-ci n'envoie que l'origine du site (pas le chemin des pages).
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
 # Durcissement activé seulement hors DEBUG, pour ne pas gêner le dev.
 if not DEBUG:
     SECURE_SSL_REDIRECT = True

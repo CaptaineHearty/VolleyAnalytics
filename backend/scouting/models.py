@@ -1,6 +1,10 @@
 from django.conf import settings
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
+
+ID_YOUTUBE = RegexValidator(
+    r"^[A-Za-z0-9_-]{11}$", "Identifiant de vidéo YouTube invalide : 11 lettres, chiffres, - ou _."
+)
 
 
 class Equipe(models.Model):
@@ -40,15 +44,32 @@ class Match(models.Model):
     equipe_ext = models.ForeignKey(Equipe, on_delete=models.PROTECT, related_name="matchs_ext")
     date = models.DateField()
     competition = models.CharField(max_length=100, blank=True)
-    # La vidéo reste en local : on garde seulement de quoi vérifier
-    # que l'utilisateur recharge le bon fichier.
-    video_nom = models.CharField(max_length=255)
-    video_taille = models.PositiveBigIntegerField(help_text="Taille du fichier en octets")
+    # Deux sources possibles, jamais les deux :
+    # - un fichier local : la vidéo reste sur le poste, on garde son nom et sa
+    #   taille pour vérifier que l'utilisateur recharge le bon fichier ;
+    # - une vidéo YouTube : on garde son identifiant.
+    video_nom = models.CharField(max_length=255, blank=True)
+    video_taille = models.PositiveBigIntegerField(
+        null=True, blank=True, help_text="Taille du fichier en octets"
+    )
+    video_youtube = models.CharField(
+        max_length=11,
+        blank=True,
+        validators=[ID_YOUTUBE],
+        help_text="Identifiant YouTube (11 caractères), ex. dQw4w9WgXcQ",
+    )
     cree_par = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     cree_le = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ["-date"]
+        constraints = [
+            models.CheckConstraint(
+                condition=(models.Q(video_youtube="", video_taille__isnull=False) & ~models.Q(video_nom=""))
+                | (~models.Q(video_youtube="") & models.Q(video_nom="", video_taille__isnull=True)),
+                name="match_une_seule_source_video",
+            ),
+        ]
 
     def __str__(self):
         return f"{self.equipe_dom} – {self.equipe_ext} ({self.date})"

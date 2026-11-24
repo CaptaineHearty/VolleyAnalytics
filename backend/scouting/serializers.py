@@ -28,17 +28,32 @@ class MatchSerializer(serializers.ModelSerializer):
             "competition",
             "video_nom",
             "video_taille",
+            "video_youtube",
             "cree_par",
             "cree_le",
         ]
         read_only_fields = ["cree_le"]
 
     def validate(self, data):
-        dom = data.get("equipe_dom", getattr(self.instance, "equipe_dom", None))
-        ext = data.get("equipe_ext", getattr(self.instance, "equipe_ext", None))
+        def valeur(champ, defaut=None):
+            return data.get(champ, getattr(self.instance, champ, defaut))
+
+        dom, ext = valeur("equipe_dom"), valeur("equipe_ext")
         if dom is not None and dom == ext:
             raise serializers.ValidationError(
                 {"equipe_ext": "Une équipe ne peut pas jouer contre elle-même."}
+            )
+
+        # Une seule source vidéo : un fichier local (nom + taille) ou YouTube.
+        fichier = bool(valeur("video_nom", "")) or valeur("video_taille") is not None
+        youtube = bool(valeur("video_youtube", ""))
+        if fichier and youtube:
+            raise serializers.ValidationError(
+                {"video": "Choisissez une seule source : un fichier ou une vidéo YouTube."}
+            )
+        if not youtube and (not valeur("video_nom", "") or valeur("video_taille") is None):
+            raise serializers.ValidationError(
+                {"video": "Indiquez la vidéo du match : un fichier (nom et taille) ou une vidéo YouTube."}
             )
         return data
 

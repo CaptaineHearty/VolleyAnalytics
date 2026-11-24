@@ -24,7 +24,7 @@ class JoueurAdmin(admin.ModelAdmin):
 
 @admin.register(Match)
 class MatchAdmin(admin.ModelAdmin):
-    list_display = ("date", "equipe_dom", "equipe_ext", "competition", "video_nom")
+    list_display = ("date", "equipe_dom", "equipe_ext", "competition", "video_nom", "video_youtube")
     list_filter = ("competition",)
     date_hierarchy = "date"
 

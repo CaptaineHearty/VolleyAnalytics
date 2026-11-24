@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { ApiError, apiFetch } from '../api/client'
 import type { Equipe, Page } from '../api/types'
 
@@ -8,8 +8,11 @@ type Etat =
   | { type: 'non-connecte' }
   | { type: 'erreur'; message: string }
 
-/** Vérifie que le frontend joint l'API et que l'utilisateur est connecté. */
-export function StatutConnexion() {
+/**
+ * Vérifie que le frontend joint l'API et que l'utilisateur est connecté.
+ * Les `children` (l'écran de travail) ne s'affichent qu'une fois connecté.
+ */
+export function StatutConnexion({ children }: { children?: ReactNode }) {
   const [etat, setEtat] = useState<Etat>({ type: 'chargement' })
 
   useEffect(() => {
@@ -34,10 +37,13 @@ export function StatutConnexion() {
       return <p role="status">Connexion à l'API…</p>
     case 'connecte':
       return (
-        <p role="status">
-          Connecté à l'API · {etat.nbEquipes} équipe{etat.nbEquipes > 1 ? 's' : ''} enregistrée
-          {etat.nbEquipes > 1 ? 's' : ''}
-        </p>
+        <>
+          <p role="status" className="statut">
+            Connecté à l'API · {etat.nbEquipes} équipe{etat.nbEquipes > 1 ? 's' : ''} enregistrée
+            {etat.nbEquipes > 1 ? 's' : ''}
+          </p>
+          {children}
+        </>
       )
     case 'non-connecte':
       return (
