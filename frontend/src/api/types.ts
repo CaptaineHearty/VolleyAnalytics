@@ -26,8 +26,10 @@ export interface Match {
   equipe_ext: number
   date: string
   competition: string
+  /** Source vidéo : un fichier local (nom + taille) OU une vidéo YouTube (identifiant). */
   video_nom: string
-  video_taille: number
+  video_taille: number | null
+  video_youtube: string
   cree_par: string | null
   cree_le: string
 }

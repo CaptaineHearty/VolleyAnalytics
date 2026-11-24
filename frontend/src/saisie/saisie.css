@@ -1,0 +1,203 @@
+.ecran-saisie {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.ligne {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem 2rem;
+  flex-wrap: wrap;
+}
+
+.espace {
+  flex: 1;
+}
+
+.aide {
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.avertissement,
+.erreur {
+  color: #d9480f;
+  margin: 0.25rem 0;
+}
+
+.choix-match select,
+.creation-match select,
+.creation-match input,
+.note input {
+  font: inherit;
+  padding: 0.3rem 0.5rem;
+}
+
+.creation-match {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border: 1px dashed currentColor;
+  border-radius: 6px;
+}
+
+.feuille-match h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+/* La feuille */
+.feuille {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  padding: 1rem;
+  border: 1px solid rgb(128 128 128 / 40%);
+  border-radius: 8px;
+}
+
+.feuille-edition {
+  border: 2px solid #f59f00;
+}
+
+.groupe {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.groupe-titre {
+  min-width: 4.5rem;
+  font-weight: 600;
+}
+
+.groupe-choix {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+button,
+.bouton {
+  font: inherit;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.choix {
+  min-width: 2.4rem;
+}
+
+.choix[aria-pressed='true'] {
+  background: #1971c2;
+  border-color: #1971c2;
+  color: #fff;
+}
+
+.principal {
+  background: #2f9e44;
+  border-color: #2f9e44;
+  color: #fff;
+  font-weight: 600;
+}
+
+.danger {
+  border-color: #e03131;
+  color: #e03131;
+}
+
+/* Grille des zones : 3 colonnes, ligne avant (au filet) en haut */
+.zones .groupe-choix {
+  display: grid;
+  grid-template-columns: repeat(3, 2.6rem);
+  gap: 0.3rem;
+}
+
+.zones .filet {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 0.75rem;
+  opacity: 0.7;
+  border-bottom: 3px double currentColor;
+}
+
+.note {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+}
+
+.note input {
+  flex: 1;
+  font-weight: normal;
+}
+
+.moment {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Journal */
+.journal h3 {
+  margin: 0.5rem 0;
+}
+
+.journal table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.journal th,
+.journal td {
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid rgb(128 128 128 / 25%);
+}
+
+.journal tbody tr {
+  cursor: pointer;
+}
+
+.journal tbody tr:hover {
+  background: rgb(128 128 128 / 12%);
+}
+
+.journal tr.en-edition {
+  background: rgb(245 159 0 / 20%);
+}
+
+.journal .temps {
+  font-variant-numeric: tabular-nums;
+}
+
+.journal .gestion {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.journal .gestion button {
+  padding: 0.15rem 0.5rem;
+  margin-left: 0.25rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}

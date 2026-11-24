@@ -1,10 +1,13 @@
 import { StatutConnexion } from './components/StatutConnexion'
+import { EcranSaisie } from './saisie/EcranSaisie'
 
 function App() {
   return (
     <main>
       <h1>VolleyAnalytics</h1>
-      <StatutConnexion />
+      <StatutConnexion>
+        <EcranSaisie />
+      </StatutConnexion>
     </main>
   )
 }

@@ -1,0 +1,129 @@
+.lecteur {
+  outline: none;
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.lecteur-source {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.lecteur-nom {
+  opacity: 0.75;
+  font-size: 0.9rem;
+}
+
+.lecteur video {
+  width: 100%;
+  max-height: 55vh;
+  background: #000;
+  border-radius: 6px;
+}
+
+.lecteur-barre {
+  width: 100%;
+}
+
+.lecteur-commandes {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.lecteur-temps {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  font-size: 1.1rem;
+}
+
+.lecteur-vitesse {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.lecteur-vitesse output {
+  min-width: 3.2em;
+  text-align: center;
+}
+
+.bouton,
+.lecteur button {
+  font: inherit;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.lecteur-play {
+  min-width: 7.5em;
+  font-weight: 600;
+}
+
+.lecteur-aide {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+.lecteur-aide div {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.lecteur-aide dd {
+  margin: 0;
+}
+
+kbd {
+  font-family: inherit;
+  padding: 0 0.3rem;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+}
+
+.lecteur-ou {
+  opacity: 0.7;
+}
+
+.lecteur-lien {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 18rem;
+}
+
+.lecteur-lien input {
+  flex: 1;
+  font: inherit;
+  padding: 0.35rem 0.5rem;
+}
+
+/* Lecteur YouTube : affiché tel quel, sans rien par-dessus ni coin arrondi qui
+   en masquerait une partie. Au moins 480 × 270 px, comme le recommande YouTube. */
+.lecteur-youtube {
+  width: min(100%, calc(55vh * 16 / 9));
+  min-width: min(100%, 480px);
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+  background: #000;
+}
+
+.lecteur-youtube iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
